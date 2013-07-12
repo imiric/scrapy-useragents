@@ -1,4 +1,5 @@
 import random
+from scrapy_webdriver.http import WebdriverRequest
 
 
 class UserAgentsMiddleware(object):
@@ -21,3 +22,6 @@ class UserAgentsMiddleware(object):
     def process_request(self, request, spider):
         user_agent = random.choice(self.user_agents)
         request.headers.setdefault('User-Agent', user_agent)
+
+        if isinstance(request, WebdriverRequest):
+            request.manager._user_agent = user_agent
